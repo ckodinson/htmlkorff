@@ -1,0 +1,708 @@
+ <!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockBusters</title>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+    }
+
+    canvas {
+        border: 1px solid black;
+    }
+
+    #statusBereich {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 700px; /* Diese Breite sollte der Breite des Canvas entsprechen */
+        font-family: Arial;
+        font-size: 16px;
+        margin-bottom: 5px; /* Abstand zwischen den Statusanzeigen und dem Spielfeld */
+    }
+	 #statusBereich span {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+</style>
+</head>
+<body>
+<h1><div id="statusBereich">
+  <span id="scoreAnzeige"></span>
+  <span id="levelAnzeige"></span>
+  <span id="lebenAnzeige"></span>
+</div></h1><br>
+<div id="itemText" style="display:none; position: absolute;"></div>
+    <canvas class="spielFeld" id="spielFeld" width="700" height="500"></canvas>
+    <script>
+
+		const canvas = document.getElementById('spielFeld');
+        const ctx = canvas.getContext("2d");
+
+
+
+
+const levels = [
+
+
+    [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+		[0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        
+    ],
+
+
+[
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0],
+		[0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0],
+		[0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0],
+		[0, 3, 3, 3, 0, 0, 3, 3, 0, 0, 3, 3, 3, 0],
+		[3, 3, 3, 0, 0, 0, 3, 0, 0, 0, 0, 3, 3, 3],
+		[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+		[0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+		[0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0]
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+],
+
+
+
+    [
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0],
+		[0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0],
+        [0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0],
+		[0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+		[0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        
+    ],
+    [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+		[1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+		[1, 1, 1, 0, 3, 3, 3, 3, 3, 0, 0, 1, 1, 1],
+        [1, 1, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 1, 1],
+    
+    ],
+    [
+        [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+		[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+        [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+        
+    ],
+    
+];
+
+
+const itemArray = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 1, 4, 4, 2, 4, 4, 4, 4, 0, 0],
+        [0, 0, 0, 0, 0, 0, 4, 4, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  
+
+    
+];
+
+
+
+
+
+
+
+
+
+const blockBreite = 49.45;
+const blockHoehe = 15;
+const blockAbstand = 0.5;
+const blockZeilen = 20;
+const blockSpalten = 14;
+const bloecke = [];
+const itemColors = [
+    null, // Kein Item (Platzhalter)
+    "#600A21",  //Dunkelrot
+    "#FB5859",  // BlassesRot
+    "#58D2F6",   // Aqua
+    "#0405B5",  // dunkelBlau
+    "#0B610B",   // Grün
+    "#2EFE2E",   // Giftgrün 6
+    "#DF7401",   // Gelb
+    "#FB58F5",   //Pink  8
+    "#000000"     //Schwarz
+];
+
+const itemNames = [
+    null, // Kein Item (Platzhalter)
+    "Schutzlinie", // 1
+    "Extra Leben", // 2
+    "Schläger schneller", // 3
+    "Schläger langsamer", // 4
+    "Ball schneller", // 5
+    "Ball langsamer", // 6
+    // Fügen Sie hier weitere Item-Namen hinzu
+];
+
+
+        for(let i=0; i<blockZeilen; i++) {
+          bloecke[i] = [];
+          for(let j=0; j<blockSpalten; j++) {
+            bloecke[i][j] = { x: 0, y: 0, status: Math.floor(Math.random() * 3) + 2 };
+          }
+        }
+
+function zeichneBloecke() {
+    for (let i = 0; i < blockZeilen; i++) {
+        for (let j = 0; j < blockSpalten; j++) {
+            if (bloecke[i][j].status > 0) {
+                const x = (j * (blockBreite + blockAbstand)) + blockAbstand;
+                const y = (i * (blockHoehe + blockAbstand)) + blockAbstand;
+
+                bloecke[i][j].x = x;
+                bloecke[i][j].y = y;
+                ctx.beginPath();
+                ctx.rect(x, y, blockBreite, blockHoehe);
+                if (bloecke[i][j].status === 1) {
+                    ctx.fillStyle = "#FF2E2F";
+                } else if (bloecke[i][j].status === 2) {
+                    ctx.fillStyle = "#FE0100";
+                } else if (bloecke[i][j].status === 3) {
+                    ctx.fillStyle = "#DF0000";
+                } else if (bloecke[i][j].status === 4) {
+                    ctx.fillStyle = "#B40404";
+                } else if (bloecke[i][j].status === 5) {
+                    ctx.fillStyle = "#8A0808";
+                } else if (bloecke[i][j].status === 6) {
+                    ctx.fillStyle = "#610A0A";
+                }
+                ctx.fill();
+                ctx.closePath();
+
+                // Fügen Sie die folgende Zeile hinzu, um die itemX Variable zu definieren
+                const itemX = x + (blockBreite - 10) / 2;
+            }
+        }
+    }
+}
+        
+        zeichneBloecke();
+let currentLevel = 0;
+const itemmArrays = itemArray [currentLevel]; 
+const levelArray = levels [currentLevel];
+checkArrays(levelArray);
+
+
+
+let kollisionen = 0;
+
+const itemText = document.getElementById('itemText');
+let schlaegergeschwindigkeit = 7;
+let score = 0;
+let leben = 3;
+let ballX = canvas.width / 2;
+let ballY = canvas.height - 50;
+let dx = 0;
+let dy = 0;
+const ballRadius = 3;
+let ballGeschwindigkeit = 6;
+let schlaegerBreite = 75;
+let schlaegerHoehe = 6;
+let schlaegerX = (canvas.width - schlaegerBreite) / 2;
+let fallendeItems = [];
+let rechtsGedrueckt = false;
+let linksGedrueckt = false;
+let schutzlinieAktiv = false;
+document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('keyup', keyUpHandler, false);
+document.addEventListener('blur', resetKeyStatus, false);
+
+function resetKeyStatus() {
+    rechtsGedrueckt = false;
+    linksGedrueckt = false;
+}
+
+
+
+function keyDownHandler(e) {
+    if (e.key === 'Right' || e.key === 'ArrowRight') {
+        rechtsGedrueckt = true;
+    } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
+        linksGedrueckt = true;
+    }
+}
+
+for (let r = 0; r < blockZeilen; r++) {
+    bloecke[r] = [];
+    for (let c = 0; c < blockSpalten; c++) {
+        bloecke[r][c] = { x: 0, y: 0, status: 1 };
+    }
+}
+
+function keyUpHandler(e) {
+    if (e.key === 'Right' || e.key === 'ArrowRight') {
+        rechtsGedrueckt = false;
+    } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
+        linksGedrueckt = false;
+    }
+}
+
+function zeichneBall() {
+    ctx.beginPath();
+    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+    ctx.closePath();
+}
+
+function zeichneSchlaeger() {
+    ctx.beginPath();
+    ctx.rect(schlaegerX, canvas.height - 10 - schlaegerHoehe, schlaegerBreite + 2, schlaegerHoehe);
+    ctx.fillStyle = 'blue';
+    ctx.fill();
+    ctx.closePath();
+}
+
+
+let itemsl = 1
+let spielLaeuft = false;
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === ' ' && !spielLaeuft) {
+        spielLaeuft = true;
+        dx = 2.3;
+        dy = -4.5;
+		
+    }
+});
+
+function checkArrays() {
+    for (let i = 0; i < levelArray.length; i++) {
+        if (levelArray[i] == 0 && itemArray[i] >= 1) {
+           // alert("Ein Item wurde freigeschaltet!");
+            itemArray[i] = 0;
+        }
+    }
+}
+
+function itemEffekt(itemType) {
+	const itemName = itemNames[itemType];
+	showItemText(itemName);
+  //alert(`Item ${itemType} eingesammelt!`);
+  applyGameEffect(itemType); // Füge die gewünschten Effekte hinzu
+}
+
+function drawFallendeItems() {
+    for (let i = 0; i < fallendeItems.length; i++) {
+        const item = fallendeItems[i];
+        ctx.beginPath();
+        ctx.arc(item.x, item.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = itemColors[item.itemType];
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+
+
+
+
+function checkPaddleCollision(item, paddleX, paddleY, paddleWidth, paddleHeight) {
+  return (
+    item.x < paddleX + paddleWidth &&
+    item.x + 10 > paddleX &&
+    item.y < paddleY + paddleHeight &&
+    item.y + 10 > paddleY
+  );
+}
+
+
+
+function updateFallendeItems() {
+    for (let i = 0; i < fallendeItems.length; i++) {
+        const item = fallendeItems[i];
+        item.y += item.dy;
+
+        // Kollision mit Schläger
+        if (checkPaddleCollision(item, schlaegerX, canvas.height - 10 - schlaegerHoehe, schlaegerBreite, schlaegerHoehe)) {
+            itemEffekt(item.itemType); // Aufrufen der itemEffekt Funktion, um den spezifischen Effekt des aufgenommenen Items anzuzeigen
+            fallendeItems.splice(i, 1); // Entfernen Sie das gesammelte Item
+            i--; // Passen Sie den Index an, da ein Element entfernt wurde
+        } else if (item.y > canvas.height) { // Wenn das Item den Boden berührt
+            fallendeItems.splice(i, 1); // Entfernen Sie das Item
+            i--; // Passen Sie den Index an, da ein Element entfernt wurde
+        }
+    }
+}
+
+
+
+function initBlocks() {
+    const level = levels[currentLevel];
+	const items = itemArray [currentLevel]; 
+    for (let r = 0; r < level.length; r++) {
+        bloecke[r] = [];
+        for (let c = 0; c < blockSpalten; c++) {
+            bloecke[r][c] = { x: 0, y: 0, status: level[r][c] };
+
+		}
+    }
+}
+
+function nextLevel() {
+    currentLevel++;
+    if (currentLevel >= levels.length) {
+        alert("Du hast das Spiel gewonnen!");
+        document.location.reload();
+    } else {
+        // Setze die Ball- und Schlägerposition zurück
+        ballX = canvas.width / 2;
+        ballY = canvas.height - 50;
+        schlaegerX = (canvas.width - schlaegerBreite) / 2;
+        
+        // Lade das nächste Level und setze das Spiel auf Pause
+        initBlocks();
+        spielLaeuft = false;
+    }
+}
+
+function resetBall() {
+  leben--;
+  //onLifeLost(); // Füge hier den Aufruf der Funktion "onLifeLost()" hinzu
+
+  if (leben === 0) {
+    alert("Game Over");
+    document.location.reload();
+  } else {
+    ballX = schlaegerX + schlaegerBreite / 2;
+    ballY = canvas.height - 30;
+    dx = 0;
+    dy = 0;
+    spielLaeuft = false;
+  }
+}	
+function zeichneScoreLeben() {
+    const scoreAnzeige = document.getElementById('scoreAnzeige');
+    const lebenAnzeige = document.getElementById('lebenAnzeige');
+	const levelAnzeige = document.getElementById('levelAnzeige');
+    scoreAnzeige.textContent = 'Score: ' + score;
+    lebenAnzeige.textContent = 'Leben: ' + leben;
+	levelAnzeige.textContent = 'Level: ' + (currentLevel + 1);
+	
+}
+
+
+function showItemText(itemName) {
+    itemText.innerHTML = `${itemName}`;
+    itemText.style.display = 'block';
+    setTimeout(() => {
+        itemText.style.display = 'none';
+    }, 2000); // Zeit in Millisekunden, nach der der Text verblassen soll
+}
+
+function positionItemText(x, y) {
+    itemText.style.left = `${x}px`;
+    itemText.style.top = `${y}px`;
+}
+
+// Beispiel, wie Sie die Funktionen verwenden können
+function onItemCollected(itemName) {
+    // Position des Schlägers (x, y) - hier müssen Sie die tatsächliche Position des Schlägers einfügen
+    const x = 100;
+    const y = 200;
+
+    positionItemText(x, y);
+    showItemText(itemName);
+}
+
+
+function applyGameEffect(itemType) {
+  switch (itemType) {
+    case 1:
+      schutzlinieAktiv = true;    //Schutzlinie
+      break;
+    case 2:
+      leben++
+      break;
+    case 3:
+//schlaegergeschwindigkeit + 2;
+      break;
+     case 4:
+	 if (schlaegergeschwindigkeit <= 3) {
+} else {
+  schlaegergeschwindigkeit -=2;
+}
+      break;
+    case 5:
+     	 if (schlaegergeschwindigkeit >= 20) {
+} else {
+  schlaegergeschwindigkeit = schlaegergeschwindigkeit + 2;
+}
+      break;
+    case 6:
+         	 if (ballGeschwindigkeit >= 12) {
+} else {
+  ballGeschwindigkeit = ballGeschwindigkeit + 1.5;
+}
+      break;
+     case 7:
+         	 if (ballGeschwindigkeit <= 3) {
+} else {
+  ballGeschwindigkeit = ballGeschwindigkeit - 1;
+}
+      break;
+    case 8:
+      // Hier Funktion für Item 2 einfügen
+      break;
+    case 9:
+      // Hier Funktion für Item 3 einfügen
+      break;
+    default:
+      break;
+  }
+}
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!//TODO//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ballGeschwindigkeit
+/*function onLifeLost() {
+  // Effekte der Items aufheben
+  // Hier den Code zum Aufheben der Effekte einfügen
+}
+*/	
+
+function zeichneSchutzlinie() {
+    if (schutzlinieAktiv) {
+        ctx.beginPath();
+        ctx.rect(0, canvas.height - 5, canvas.width, 2);
+        ctx.fillStyle = 'orange';
+        ctx.fill();
+        ctx.closePath();
+    }
+}
+
+
+
+function kollisionErkennung() {
+    let allBlocksDestroyed = true;
+
+    for (let r = 0; r < blockZeilen; r++) {
+        for (let c = 0; c < blockSpalten; c++) {
+            const b = bloecke[r][c];
+            if (b.status > 0) {
+                const blockX = b.x;
+                const blockY = b.y;
+                if (
+                    ballX + ballRadius > blockX &&
+                    ballX - ballRadius < blockX + blockBreite &&
+                    ballY + ballRadius > blockY &&
+                    ballY - ballRadius < blockY + blockHoehe
+                ) {
+                    const ballZentrumX = ballX;
+                    const ballZentrumY = ballY;
+                    const distX = Math.abs(ballZentrumX - blockX - blockBreite / 2);
+                    const distY = Math.abs(ballZentrumY - blockY - blockHoehe / 2);
+
+                    if (distX > (blockBreite / 2 + ballRadius) || distY > (blockHoehe / 2 + ballRadius)) {
+                        continue;
+                    }
+
+                    let kollisionVerarbeitet = false; // Variable hinzufügen, um Kollision zu verfolgen
+
+                    if (distX <= blockBreite / 2) {
+                        dy = -dy;
+                        b.status = b.status - 1;
+                        if (!kollisionVerarbeitet) {
+                            score++;
+                            kollisionVerarbeitet = true;
+                        }
+                        if (b.status === 0 && itemArray[r][c] > 0) {
+                            fallendeItems.push({ x: blockX + blockBreite / 2, y: blockY, itemType: itemArray[r][c], dy: 2 });
+                        }
+                    }
+
+                    if (distY <= blockHoehe / 2) {
+                        dx = -dx;
+                        b.status = b.status - 1;
+                        if (!kollisionVerarbeitet) {
+                            score++;
+                            kollisionVerarbeitet = true;
+                        }
+                        if (b.status === 0 && itemArray[r][c] > 0) {
+                            fallendeItems.push({ x: blockX + blockBreite / 2, y: blockY, itemType: itemArray[r][c], dy: 2 });
+                        }
+                    }
+                }
+
+                allBlocksDestroyed = false;
+            }
+        }
+    }
+
+    if (allBlocksDestroyed) {
+        nextLevel();   
+    }
+}
+
+function adjustBounceAngle(velocity, minAngle) {
+    if (Math.abs(velocity) < minAngle) {
+        if (velocity >= 0) {
+            return velocity + minAngle;
+        } else {
+            return velocity - minAngle;
+        }
+    }
+    return velocity;
+}
+
+function zeichne() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    zeichneBall();
+    zeichneSchlaeger();
+    zeichneBloecke();
+    zeichneScoreLeben();
+    zeichneSchutzlinie();
+    updateFallendeItems();
+    drawFallendeItems();
+
+    if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
+        dx = -dx;
+    }
+
+    if (ballY + dy < ballRadius) {
+        dy = -dy;
+    } else if (ballY + dy > canvas.height - ballRadius - schlaegerHoehe - 5) {
+        if (ballX + ballRadius >= schlaegerX && ballX - ballRadius <= schlaegerX + schlaegerBreite) {
+            const schlaegerMitte = schlaegerX + schlaegerBreite / 2;
+            const aufprallPosition = (ballX - schlaegerMitte) / (schlaegerBreite / 2);
+            const maxWinkel = 75;
+            const winkelRad = (maxWinkel * aufprallPosition) * (Math.PI / 180);
+            const geschwindigkeitsFaktor = Math.abs(aufprallPosition) * 0.5 + 1;
+            dx = Math.sin(winkelRad) * 5 * geschwindigkeitsFaktor;
+            dy = -Math.cos(winkelRad) * 5 * geschwindigkeitsFaktor;
+            dx = adjustBounceAngle(dx, 1); // Verwenden Sie einen minimalen Winkel von 1
+        } else if (schutzlinieAktiv && ballY + dy > canvas.height - 5 - ballRadius) {
+            dy = -dy;
+            schutzlinieAktiv = false;
+        } else if (ballY + dy > canvas.height - ballRadius) {
+            resetBall();
+        }
+    }
+
+    if (rechtsGedrueckt && schlaegerX < canvas.width - schlaegerBreite) {
+        schlaegerX += schlaegergeschwindigkeit;
+    } else if (linksGedrueckt && schlaegerX > 0) {
+        schlaegerX -= schlaegergeschwindigkeit;
+    }
+
+    if (spielLaeuft) {
+        ballX += dx;
+        ballY += dy;
+    } else {
+        ballX = schlaegerX + schlaegerBreite / 2;
+    }
+    checkArrays();
+    kollisionErkennung();
+    requestAnimationFrame(zeichne);
+}
+
+initBlocks();
+zeichne();
+    </script>
+</body>
+</html>
