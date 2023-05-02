@@ -32,6 +32,15 @@
         margin-left: 20px;
         margin-right: 20px;
     }
+
+    #itemText {
+        position: absolute;
+        color: white;
+        font-size: 20px;
+        left: 50%;
+        top: calc(50% + 250px - 10px); /* 50% der Höhe des Canvas + 250px (Hälfte der Canvas-Höhe) - 10px (Hälfte der Schlägerhöhe) */
+        transform: translateX(-50%); /* Um den Text mittig über dem Schläger zu positionieren */
+    }
 </style>
 </head>
 <body>
@@ -40,7 +49,7 @@
   <span id="levelAnzeige"></span>
   <span id="lebenAnzeige"></span>
 </div></h1><br>
-<div id="itemText" style="display:none; position: absolute;"></div>
+<div class="itemText"id="iteText"></div>
     <canvas class="spielFeld" id="spielFeld" width="700" height="500"></canvas>
     <script>
 
@@ -348,7 +357,7 @@ function keyUpHandler(e) {
 function zeichneBall() {
     ctx.beginPath();
     ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = '#787878';
     ctx.fill();
     ctx.closePath();
 }
@@ -356,7 +365,7 @@ function zeichneBall() {
 function zeichneSchlaeger() {
     ctx.beginPath();
     ctx.rect(schlaegerX, canvas.height - 10 - schlaegerHoehe, schlaegerBreite + 2, schlaegerHoehe);
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = '#00FF00"; 
     ctx.fill();
     ctx.closePath();
 }
@@ -469,7 +478,7 @@ function resetBall() {
   //onLifeLost(); // Füge hier den Aufruf der Funktion "onLifeLost()" hinzu
 
   if (leben === 0) {
-    alert("Game Over");
+    alert("Spiel vorbei! Dein Score: " + score);
     document.location.reload();
   } else {
     ballX = schlaegerX + schlaegerBreite / 2;
@@ -495,7 +504,7 @@ function showItemText(itemName) {
     itemText.style.display = 'block';
     setTimeout(() => {
         itemText.style.display = 'none';
-    }, 2000); // Zeit in Millisekunden, nach der der Text verblassen soll
+    }, 2000);
 }
 
 function positionItemText(x, y) {
@@ -503,11 +512,9 @@ function positionItemText(x, y) {
     itemText.style.top = `${y}px`;
 }
 
-// Beispiel, wie Sie die Funktionen verwenden können
 function onItemCollected(itemName) {
-    // Position des Schlägers (x, y) - hier müssen Sie die tatsächliche Position des Schlägers einfügen
-    const x = 100;
-    const y = 200;
+    const x = 100; // Beispielwert für schlaegerX
+    const y = 500; // Beispielwert für schlaegerY
 
     positionItemText(x, y);
     showItemText(itemName);
@@ -570,7 +577,7 @@ function zeichneSchutzlinie() {
     if (schutzlinieAktiv) {
         ctx.beginPath();
         ctx.rect(0, canvas.height - 5, canvas.width, 2);
-        ctx.fillStyle = 'orange';
+        ctx.fillStyle = '#2A120A';
         ctx.fill();
         ctx.closePath();
     }
