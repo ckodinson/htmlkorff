@@ -66,6 +66,7 @@
     margin-right: 50px;
     color: rgb(32, 77, 30);
     border-radius: 5px;
+    margin-top: 25px;
     }
     .centern {
         display: flex;
@@ -76,10 +77,16 @@
     img {
 
         border:10px solid #064d29;
-        border-top-right-radius: 10px;
-        border-bottom-left-radius: 10px;
+        border-radius: 10px;
+        height: 300px;
+        width: 400px;
         box-shadow: 0px 2px 6px 2px;
+        margin: 10px;
+    }
+    img:hover {
 
+        height:335px;
+        width: 435px;
     }
     .content-container {
       margin-top: 50px;
