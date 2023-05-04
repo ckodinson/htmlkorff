@@ -613,7 +613,7 @@ const itemArrays = [
 let currentLevel = 0;
 let spacePressed = false;
 let schussAktiv = false;
-let klebenAktiv = false;
+let klebenAktiv = true;
 let schuesse = [];
 const maxSchuesse = 4;
 const itemArray = []
@@ -797,7 +797,7 @@ let ballRelativeX = ballX - schlaegerX;
 let fallendeItems = [];
 let rechtsGedrueckt = false;
 let linksGedrueckt = false;
-let schutzlinieAktiv = false;
+let schutzlinieAktiv = true;
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('blur', resetKeyStatus, false);
@@ -1035,7 +1035,8 @@ spielBeendet = true;
 
 else {
 schlaegerX = (canvas.width - schlaegerBreite) / 2;
-ballX = canvas.width / 2;
+ballX = schlaegerX - ballRadius;
+ballY = canvas.height - 50;
 dx = 0;
 dy = 0;
 spielLaeuft = false;
@@ -1273,7 +1274,7 @@ dx = -dx;
 
 if (ballY + dy < ballRadius) {
 dy = -dy;
-} else if (ballY + dy > canvas.height - ballRadius - schlaegerHoehe - 3) {
+} else if (ballY + dy > canvas.height - ballRadius - schlaegerHoehe - 5) {
 if (ballX + ballRadius >= schlaegerX && ballX - ballRadius <= schlaegerX + schlaegerBreite) {
     const schlaegerMitte = schlaegerX + schlaegerBreite / 2;
     const aufprallPosition = (ballX - schlaegerMitte) / (schlaegerBreite / 2);
@@ -1290,10 +1291,10 @@ if (ballX + ballRadius >= schlaegerX && ballX - ballRadius <= schlaegerX + schla
         spielLaeuft = false;
     }
 
-} else if (schutzlinieAktiv && ballY + dy > canvas.height -8 - ballRadius) {
+} else if (schutzlinieAktiv && ballY + dy > canvas.height - 3 - ballRadius) {
     dy = -dy;
     schutzlinieAktiv = false;
-} else if (ballY + dy > canvas.height - ballRadius -3) {
+} else if (ballY + dy > canvas.height - ballRadius ) {
     resetBall();
 }
 }
@@ -1316,6 +1317,7 @@ dx = 0; // Setze die horizontale Geschwindigkeit auf 0, wenn der Ball nicht am S
 }
 if (klebenAktiv && !spielLaeuft) {
 ballX = schlaegerX + ballRelativeX; // Aktualisiere die X-Position des Balls, während er am Schläger klebt
+ballY = canvas.height - ballRadius - schlaegerHoehe - 10;
 }
 if (spacePressed && !spielLaeuft && klebenAktiv) {
 const schlaegerMitte = schlaegerX + schlaegerBreite / 2;
@@ -1330,12 +1332,12 @@ dy = -Math.cos(winkelRad) * 5 * geschwindigkeitsFaktor;
 spielLaeuft = true;
 
 }
-if (klebenAktiv && ballY >= canvas.height - schlaegerHoehe - ballRadius -5 &&schutzlinieAktiv) {
+if (klebenAktiv && ballY >= canvas.height - schlaegerHoehe - ballRadius -3 &&schutzlinieAktiv) {
 dy = -dy;
     schutzlinieAktiv = false;
 }
 
-else if (ballY + dy > canvas.height - ballRadius -3) {
+else if (ballY + dy > canvas.height - ballRadius && klebenAktiv) {
     resetBall();
 }
 
