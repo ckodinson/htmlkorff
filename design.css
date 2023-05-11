@@ -129,7 +129,7 @@
       border: 5px solid rgb(19, 51, 19);
        border-radius: 5px;
       margin-bottom: 100px;
-       background-color: rgba(219, 219, 219, 0.911);"
+       background-color: rgba(219, 219, 219, 0.911);
   }
   
   #statusBereich {
@@ -171,7 +171,7 @@
           position: absolute;
           color: rgb(7, 7, 7);
           font-size: 20px;
-          top: 60%; // Position von oben
-      left: 40%; // Position von links
+          top: 60%; /* Position von oben*/
+          left: 40%; /*Position von links */
       }
   

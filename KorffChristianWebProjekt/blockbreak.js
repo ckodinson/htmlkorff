@@ -1021,7 +1021,7 @@ document.location.reload();
 // Lade das nächste Level und setze das Spiel auf Pause
 initBlocks();
 spielLaeuft = false;
-ballX = (canvas.width - schlaegerBreite) / 2;
+ballX  = schlaegerX + schlaegerBreite / 2 - ballRadius / 2;
 ballY = canvas.height - 50;
 schlaegerX = (canvas.width - schlaegerBreite) / 2;
 dx = 0;
@@ -1035,6 +1035,7 @@ dy = 0;
 
 
 function resetBall() {
+ballRelativeX = ballX - schlaegerX;
 dx = 0;
 dy = 0;
 leben--;
@@ -1047,6 +1048,7 @@ klebenAktiv = false;
 schlaegergeschwindigkeit = 7;
 ballGeschwindigkeit = 1;
 schlaegerBreite = 75;
+ballRelativeX = schlaegerBreite / 2;
 if (leben === 0) {
 const gameOverMessage = 'Game Over';
 const scoreMessage = 'Dein Score: ' + score;
@@ -1057,7 +1059,7 @@ spielBeendet = true;
 
 else {
     schlaegerX = (canvas.width - schlaegerBreite) / 2;
-    ballX = ballX = schlaegerX + schlaegerBreite / 2 - ballRadius / 2;
+    ballX  = schlaegerX + schlaegerBreite / 2 - ballRadius / 2;
 ballY = canvas.height - 50;
 dx = 0;
 dy = 0;
@@ -1176,10 +1178,13 @@ Speedfaktor = Speedfaktor - 0.1;
 }
 break;
 case 8:
+if(klebenAktiv && !spielLaeuft){dy = -4;
+spielLaeuft = true;}
 schussAktiv = true;
 klebenAktiv = false;
 KleberSchuss = true;
 Levelload =  false;
+
 
 break;
 case 9:
@@ -1247,11 +1252,7 @@ for (let c = 0; c < blockSpalten; c++) {
                 dy = -dy;
             } else if (wasLeft || wasRight) {
                 dx = -dx;
-            } else {
-                // Wenn die Kollision in der Ecke stattfindet, ändern Sie beide Richtungen
-                dy = -dy;
-                dx = -dx;
-            }
+            } 
 
             b.status = b.status - 1;
             score++;
@@ -1291,11 +1292,7 @@ else if(ballX + ballRadius > blockX &&
             dy = -dy;
         } else if (wasLeft || wasRight) {
             dx = -dx;
-        } else {
-            // Wenn die Kollision in der Ecke stattfindet, ändern Sie beide Richtungen
-            dy = -dy;
-            dx = -dx;
-        }
+        } 
     b.status = b.status - 1;
             score++;
 
