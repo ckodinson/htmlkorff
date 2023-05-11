@@ -110,24 +110,24 @@ const levels = [
 ],
 [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-[1, 1, 2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1],
-[1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+[0, 1, 2, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1],
+[0, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1],
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
@@ -416,24 +416,24 @@ const itemArrays = [
 ],
 [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-[1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+[0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0],
+[0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0],
+[0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0],
+[0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 6, 0, 0, 0, 0, 0, 11, 0, 4, 0, 0],
+[0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 5, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 11],
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 
@@ -800,7 +800,7 @@ let ballY = canvas.height - 50;
 let dx = 0;
 let dy = 0;
 const ballRadius = 3;
-let ballGeschwindigkeit = 6;
+let ballGeschwindigkeit = 1;
 let KleberSchuss = false;
 let schlaegerBreite = 75;
 let schlaegerHoehe = 6;
@@ -902,6 +902,7 @@ let itemsl = 1
 let spielLaeuft = false;
 
 function GamePause() {
+    
 if (klebenAktiv === false && schussAktiv === false && !spielLaeuft) {
 showOverlayMessage('Leertaste zum Starten','','');
 }
@@ -913,6 +914,8 @@ else if(!spielLaeuft && klebenAktiv === false && schussAktiv === true && Levello
     spielLaeuft = spielLaeuft = true;
     dy = -4;
     KleberSchuss = false;
+
+    
     }
 else {}
 }
@@ -1037,7 +1040,7 @@ Speedfaktor = 0.5;
 schussAktiv = false;
 klebenAktiv = false;
 schlaegergeschwindigkeit = 7;
-ballGeschwindigkeit = 6;
+ballGeschwindigkeit = 1;
 schlaegerBreite = 75;
 if (leben === 0) {
 const gameOverMessage = 'Game Over';
@@ -1048,12 +1051,13 @@ spielBeendet = true;
 }
 
 else {
-    ballX = (canvas.width - schlaegerBreite) / 2;
     schlaegerX = (canvas.width - schlaegerBreite) / 2;
+    ballX = (canvas.width - schlaegerBreite) / 2;
 ballY = canvas.height - 50;
 dx = 0;
 dy = 0;
 spielLaeuft = false;
+Levelload = false;    
 }
 }
 
@@ -1153,16 +1157,16 @@ schlaegergeschwindigkeit = schlaegergeschwindigkeit + 2;
 }
 break;
 case 6:
-      if (ballGeschwindigkeit >= 12 && Speedfaktor>= 1) {
+      if (ballGeschwindigkeit >= 2.2 && Speedfaktor>= 1) {
 } else {
-ballGeschwindigkeit = ballGeschwindigkeit + 1.5;
+ballGeschwindigkeit = ballGeschwindigkeit + 0.1;
 Speedfaktor = Speedfaktor + 0.1;
 }
 break;
 case 7:
-      if (ballGeschwindigkeit <= 3 && Speedfaktor<=0.2) {
+      if (ballGeschwindigkeit <= 0.2 && Speedfaktor<=0.2) {
 } else {
-ballGeschwindigkeit = ballGeschwindigkeit - 1;
+ballGeschwindigkeit = ballGeschwindigkeit - 0.1;
 Speedfaktor = Speedfaktor - 0.1;
 }
 break;
@@ -1170,6 +1174,7 @@ case 8:
 schussAktiv = true;
 klebenAktiv = false;
 KleberSchuss = true;
+Levelload =  false;
 
 break;
 case 9:
@@ -1179,13 +1184,13 @@ break;
 case 10:
 if (schlaegerBreite <= 35) {
 } else {
-schlaegerBreite = schlaegerBreite - 10;
+schlaegerBreite = schlaegerBreite - 6;
 }
 break;
 case 11:
 if (schlaegerBreite >= 115) {
 } else {
-schlaegerBreite = schlaegerBreite + 10;
+schlaegerBreite = schlaegerBreite + 6;
 }
 break;
 default:
@@ -1295,7 +1300,7 @@ if (ballX + ballRadius >= schlaegerX && ballX - ballRadius <= schlaegerX + schla
     const aufprallPosition = (ballX - schlaegerMitte) / (schlaegerBreite / 2);
     const maxWinkel = 75;
     const winkelRad = (maxWinkel * aufprallPosition) * (Math.PI / 180);
-    const geschwindigkeitsFaktor = Math.abs(aufprallPosition) * Speedfaktor + 1;
+    const geschwindigkeitsFaktor = Math.abs(aufprallPosition) * Speedfaktor + ballGeschwindigkeit;
     dx = Math.sin(winkelRad) * 5 * geschwindigkeitsFaktor;
     dy = -Math.cos(winkelRad) * 5 * geschwindigkeitsFaktor;
     dx = adjustBounceAngle(dx, 1); // Verwenden Sie einen minimalen Winkel von 1
@@ -1339,7 +1344,7 @@ const schlaegerMitte = schlaegerX + schlaegerBreite / 2;
 const aufprallPosition = (ballX - schlaegerMitte) / (schlaegerBreite / 2);
 const maxWinkel = 75;
 const winkelRad = (maxWinkel * aufprallPosition) * (Math.PI / 180);
-const geschwindigkeitsFaktor = Math.abs(aufprallPosition) * Speedfaktor + 1;
+const geschwindigkeitsFaktor = Math.abs(aufprallPosition) * Speedfaktor + ballGeschwindigkeit;
 
 dx = Math.sin(winkelRad) * 5 * geschwindigkeitsFaktor;
 dy = -Math.cos(winkelRad) * 5 * geschwindigkeitsFaktor;
