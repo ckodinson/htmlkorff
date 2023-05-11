@@ -328,7 +328,7 @@ const itemArrays = [
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0],
 [0, 0, 0, 0, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0],
 [5, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+[0, 0, 0, 0, 0, 0, 12, 12, 12, 0, 0, 0, 0, 3],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
 [0, 0, 0, 11, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -619,10 +619,10 @@ const itemArrays = [
 
 
 
-
+let Durchschlag = 0;
 let currentLevel = 0;
 let spacePressed = false;
-let schussAktiv = false;
+let schussAktiv = true;
 let klebenAktiv = false;
 let schuesse = [];
 const maxSchuesse = 4;
@@ -647,6 +647,7 @@ null, // Kein Item (Platzhalter)
 "#008000",     //darkgrün
 "#FF00FF",     //Magenta
 "#00FFFF",     //cyan
+"#000000",
 ];
 
 const itemNames = [
@@ -662,6 +663,7 @@ null, // Kein Item (Platzhalter)
 "Kleber Aktiv", //9
 "Schlägersize -", //10                                          // Fügen Sie hier weitere Item-Namen hinzu
 "Schlägersize +", //11
+"Durchschlag + 1",  //12
 ];
 const steinFarben = []
 const levelFarben = [
@@ -1033,9 +1035,12 @@ dy = 0;
 
 
 function resetBall() {
+dx = 0;
+dy = 0;
 leben--;
 fallendeItems = [];
 schuesse = [];
+Durchschlag = 0;
 Speedfaktor = 0.5;
 schussAktiv = false;
 klebenAktiv = false;
@@ -1052,7 +1057,7 @@ spielBeendet = true;
 
 else {
     schlaegerX = (canvas.width - schlaegerBreite) / 2;
-    ballX = (canvas.width - schlaegerBreite) / 2;
+    ballX = ballX = schlaegerX + schlaegerBreite / 2 - ballRadius / 2;
 ballY = canvas.height - 50;
 dx = 0;
 dy = 0;
@@ -1096,7 +1101,7 @@ function zeichneSchuss() {
 for (let schuss of schuesse) {
 ctx.beginPath();
 ctx.rect(schuss.x, schuss.y, 3, 10);
-ctx.fillStyle = "#FFc357";
+ctx.fillStyle = "#FF0357";
 ctx.fill();
 ctx.closePath();
 }
@@ -1193,6 +1198,10 @@ if (schlaegerBreite >= 115) {
 schlaegerBreite = schlaegerBreite + 6;
 }
 break;
+case 12:
+Durchschlag = Durchschlag + 1;
+
+break;
 default:
 break;
 }
@@ -1219,7 +1228,7 @@ for (let c = 0; c < blockSpalten; c++) {
     if (b.status > 0) {
         const blockX = b.x;
         const blockY = b.y;
-        if (
+        if (Durchschlag < b.status &&
             ballX + ballRadius > blockX &&
             ballX - ballRadius < blockX + blockBreite &&
             ballY + ballRadius > blockY &&
@@ -1253,7 +1262,47 @@ for (let c = 0; c < blockSpalten; c++) {
 
             collisionProcessed = true; // Setzen Sie die Variable auf true, nachdem eine Kollision verarbeitet wurde
         }
+else if(ballX + ballRadius > blockX &&
+    ballX - ballRadius < blockX + blockBreite &&
+    ballY + ballRadius > blockY &&
+    ballY - ballRadius < blockY + blockHoehe && b.status <= Durchschlag){
 
+    b.status = b.status - 1;
+            score++;
+
+            if (b.status === 0 && itemArray[r][c] > 0) {
+                fallendeItems.push({ x: blockX + blockBreite / 2, y: blockY, itemType: itemArray[r][c], dy: 2 });
+            }
+}
+else if(ballX + ballRadius > blockX &&
+    ballX - ballRadius < blockX + blockBreite &&
+    ballY + ballRadius > blockY &&
+    ballY - ballRadius < blockY + blockHoehe && b.status >= Durchschlag){
+
+        const prevBallX = ballX - dx;
+        const prevBallY = ballY - dy;
+
+        const wasAbove = prevBallY + ballRadius <= blockY;
+        const wasBelow = prevBallY - ballRadius >= blockY + blockHoehe;
+        const wasLeft = prevBallX + ballRadius <= blockX;
+        const wasRight = prevBallX - ballRadius >= blockX + blockBreite;
+
+        if (wasAbove || wasBelow) {
+            dy = -dy;
+        } else if (wasLeft || wasRight) {
+            dx = -dx;
+        } else {
+            // Wenn die Kollision in der Ecke stattfindet, ändern Sie beide Richtungen
+            dy = -dy;
+            dx = -dx;
+        }
+    b.status = b.status - 1;
+            score++;
+
+            if (b.status === 0 && itemArray[r][c] > 0) {
+                fallendeItems.push({ x: blockX + blockBreite / 2, y: blockY, itemType: itemArray[r][c], dy: 2 });
+            }
+}
         allBlocksDestroyed = false;
     }
 }
